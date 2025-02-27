@@ -26,13 +26,16 @@ args parge_args(int argc, char *argv[])
     return { argv[1], argv[2] };
 }
 
+constexpr auto stream_block_size = 8192;
+constexpr auto min_search_task_size = 2048;
+
 int main(int argc, char *argv[])
 {
     try
     {
         auto args = parge_args(argc, argv);
         std::ifstream file(args.path);
-        searcher<async_task_runner, naive_mask_finder> searcher(file, 8192, 2048);
+        searcher<async_task_runner, naive_mask_finder> searcher(file, stream_block_size, min_search_task_size);
 
         output_formatter formatter(std::cout);
         formatter.print(searcher.run(args.mask));

@@ -13,7 +13,7 @@ public:
 
     void print(const std::vector<search_entry> &entries)
     {
-        stream_ << "Total: " << entries.size() << std::endl;
+        stream_ << entries.size() << std::endl;
 
         for (auto &entry : entries)
             stream_ << entry.line + 1 << " "

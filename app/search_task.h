@@ -20,31 +20,32 @@ struct search_task_result
 
 struct naive_mask_finder
 {
-    static size_t find(const std::string_view& line, const std::string_view& mask, size_t pos)
+    static size_t find(const std::string_view &line, const std::string_view &mask, size_t pos)
     {
-        if(mask.size() > line.size() || pos >= line.size())
+        if (mask.size() > line.size() || pos >= line.size())
             return line.npos;
 
-        for(auto i = pos; i < line.size() - mask.size() + 1; i++)
+        for (auto i = pos; i < line.size() - mask.size() + 1; i++)
         {
             auto found = true;
-            for(auto j = 0u; j < mask.size(); j++)
+            for (auto j = 0u; j < mask.size(); j++)
             {
-                if(mask[j] != '?' && mask[j] != line[i + j])
+                if (mask[j] != '?' && mask[j] != line[i + j])
                 {
                     found = false;
                     break;
                 }
             }
 
-            if(found) return i;
+            if (found)
+                return i;
         }
 
         return line.npos;
     }
 };
 
-template<typename _Finder>
+template <typename _Finder>
 class search_task
 {
     const std::string &mask_;
@@ -65,7 +66,8 @@ class search_task
         if (pos == previous_buffer_ending_.npos)
             return;
 
-        result.entries.emplace_back(result.lines_processed, (int)pos - n, mask_);
+        result.entries.emplace_back(result.lines_processed, (int)pos - n,
+                                    previous_buffer_ending_.substr(pos, mask_.size()));
     }
 
     void search_in_line(const std::string_view &line, search_task_result &result)
@@ -73,7 +75,7 @@ class search_task
         auto pos = _Finder::find(line, mask_, 0);
         while (pos != line.npos)
         {
-            result.entries.emplace_back(result.lines_processed, pos, mask_);
+            result.entries.emplace_back(result.lines_processed, pos, std::string(line.substr(pos, mask_.size())));
             pos = _Finder::find(line, mask_, pos + mask_.size());
         }
     }
