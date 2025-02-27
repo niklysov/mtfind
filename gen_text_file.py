@@ -3,7 +3,7 @@ import random
 import string
 
 def get_random_string(len):
-    return ''.join(random.choice(string.printable) for _ in range(len))
+    return ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(len))
 
 if __name__ == '__main__':
     path = sys.argv[1]
