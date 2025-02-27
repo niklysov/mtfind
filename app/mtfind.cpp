@@ -26,8 +26,8 @@ args parge_args(int argc, char *argv[])
     return { argv[1], argv[2] };
 }
 
-constexpr auto stream_block_size = 8192;
-constexpr auto min_search_task_size = 2048;
+constexpr auto stream_block_size = 1024u * 1024u;
+constexpr auto min_search_task_size = 100u * 1024u;
 
 int main(int argc, char *argv[])
 {
