@@ -10,7 +10,7 @@ if __name__ == '__main__':
     lines_count = int(sys.argv[2])
     line_avg_size = int(sys.argv[3])
 
-    with open(path, "w") as file:
+    with open(path, "w", encoding="ascii") as file:
         for i in range(lines_count):
             line_length = random.randrange(1, 2 * line_avg_size)
             str = get_random_string(line_length)
