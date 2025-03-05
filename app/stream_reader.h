@@ -26,7 +26,7 @@ class stream_reader
     }
 
 public:
-    stream_reader(std::istream &stream, size_t buffer_size) : stream_(stream), buffer_size_(buffer_size + 1),
+    stream_reader(std::istream &stream, size_t buffer_size) : stream_(stream), buffer_size_(buffer_size),
                                                               current_buffer_(&double_buffer_.second)
     {
         double_buffer_.first.data = std::make_unique<char[]>(buffer_size_);
@@ -39,7 +39,7 @@ public:
             throw std::runtime_error("Stream is invalid: IO error or file does not exist.");
 
         swap_buffers();
-        stream_.read(current_buffer_->data.get(), buffer_size_ - 1);
+        stream_.read(current_buffer_->data.get(), buffer_size_);
         current_buffer_->count = stream_.gcount();
         return current_buffer_->get_view();
     }
